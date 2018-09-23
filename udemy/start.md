@@ -60,7 +60,7 @@ added Card.create_deck, but got [UNdefinedFunctionError] as need to call
   end
 
   def shuffle(deck) do
-    Enum.shuffle(deck) ## Enum is in esl, so does not need an import.
+    Enum.shuffle(deck) ## Enum is in esl (elixir standard library), so does not need an import.
   end
 
   ## contains? // convention puts a question mark on functions that returns t/f
@@ -74,6 +74,16 @@ note no assignment to anything, eg: var array =
 in oo, might have an instance of a Deck class whose deck.shuffle() function operated on instance values, such as this.Card
 
 in any functional language this is not the case. Central is the Cards Module (stand alone object) with no instance variables. A module cannot be instantiated; it is a collection of methods and nothing more.
+
+Cards Module contains: create_deck, shuffle, save, load
+
+create_deck -> <[string]>
+
+<[string]> -> shuffle -> <[string]>
+
+<[string]> -> save -> <[string]> (path to saved file)
+
+(path to saved file)<[string]> -> load -> <[string]>
 
 cards.create_deck would return our array (with any internal storage).
 cards.shuffle would have an array in and return a new array.
@@ -142,9 +152,36 @@ end
 
 ## 1.15 The importance of index with tuples
 
+Cards.deal/2 returns a tuple, eg: {[1,2,3], [4,5]} - where first item in Tuple (index 0) is our hand and index 1 is the "remainder".
+
+How do we get just the first bit? tempting to try ```Cards.deal(deck, 3)[0]``` but this will not work. Instead it's all about Pattern Matching.
 
 
+## 1.16 Pattern Matching
 
+..is elixirs replacement for variable assignment.
+
+```
+iex> { hand, rest_of_deck } = Cards.deal(deck, 5)
+iex> hand ## shows hand
+iex> rest_of_deck ## show rest
+
+```
+
+Because the tuple of the left hand side matches the result from the right hand side exactly, they get mapped.
+
+Any time we see = we are pattern matching.
+
+```iex> colour1 = ["red"] ## lhs matches entire list (of one) ```
+
+```
+iex> [colour1] = ["red"] ##lhs matches the string
+iex> colour1
+"red"
+```
+
+
+code we write (fed into)-> Elixir (transpiled)-> Erlang (compiled and executes)-> BEAM
 
 
 

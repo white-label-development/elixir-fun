@@ -33,6 +33,7 @@ defmodule Cards do
     ##     "#{value} of #{suit}"
     ##   end
     ## end
+    ## outer comprehension into inner comprehension returns a list of lists.
 
     for suit <- suits, value <- values do
       "#{value} of #{suit}"
