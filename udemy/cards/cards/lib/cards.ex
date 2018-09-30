@@ -35,6 +35,7 @@ defmodule Cards do
     ## end
     ## outer comprehension into inner comprehension returns a list of lists.
 
+    ## correct method. Does the order make a difference?
     for suit <- suits, value <- values do
       "#{value} of #{suit}"
     end
@@ -52,6 +53,19 @@ defmodule Cards do
   ## split deck into new deck minus hand_size
   def deal(deck, hand_size) do
     Enum.split(deck, hand_size)
+  end
+
+  def save(deck, filename) do
+    binary = :erlang.term_to_binary(deck)
+    File.write(filename, binary)
+  end
+
+  def load(filename) do
+    {status, binary} = File.read(filename)
+    case status do
+      :ok -> :erlang.binary_to_term(binary)
+      :error -> "That file does not exist."
+    end
   end
 
 end
